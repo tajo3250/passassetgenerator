@@ -63,9 +63,9 @@ seasonname.addEventListener("change", render);
 seasonindex.addEventListener("change", render);
 imageUpload.addEventListener("change", render);
 colorpicker.addEventListener("change", render);
-render()
 
-function render() {
+let second = false
+async function render() {
 	const canvas = document.getElementById('canvas');
 	const ctx = canvas.getContext('2d');
 
@@ -87,14 +87,13 @@ function render() {
 		};
 		image.src = "./examplebackground.png"
 	}
+
+	if (second === false) {
+		second = true
+		await sleep(1200)
+		render()
+	}
 }
-
-
-if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-	console.info( "This page is reloaded" );
-  } else {
-	console.info( "This page is not reloaded");
-  }
 
 function render2(ctx, image) {
 	const canvas = ctx.canvas;
@@ -105,6 +104,7 @@ function render2(ctx, image) {
 
 	ctx.fillStyle = colorpicker.value;
 	ctx.fillRect((canvas.width-width)/2, canvas.height-height, width, height);
+	ctx.fillStyle = "#000000"
 
 	ctx.globalAlpha = 0.7;
 	ctx.drawImage(image, (canvas.width-width)/2, canvas.height-height, width, height);
@@ -113,13 +113,22 @@ function render2(ctx, image) {
 	let fontsize = 62;
 
 	ctx.font = `800 ${fontsize}px "Rubik"`;
-	ctx.fillStyle = '#ffffff';
 	ctx.shadowColor = 'rgba(0, 0, 0, 1)';
 	ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+	ctx.fillStyle = "#FFFFFF"
 	ctx.lineWidth = fontsize/6;
 	ctx.shadowOffsetY = fontsize/20;
 	ctx.textAlign = 'left';
 	
 	ctx.strokeText(`${seasonname.value.toUpperCase()}`, canvas.width / 3.4 / 3.4, canvas.height - canvas.height / 8.2);
 	ctx.fillText(`${seasonname.value.toUpperCase()}`, canvas.width / 3.4 / 3.4, canvas.height - canvas.height / 8.2);
+
+	ctx.shadowColor = 'rgba(0, 0, 0, 0)';
+	ctx.strokeStyle = '#000000';
+	ctx.fillStyle = "#000000";
+	ctx.lineWidth = 0;
+	ctx.shadowOffsetY = 0;
+	ctx.textAlign = "start";
 }
+
+render()
