@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@800&display=swap" rel="stylesheet">
+
+	<!-- Library -->
+		<!-- Loading -->
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+		<div class="loading-page">
+			<svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+				<path
+					d="M273.336 39.853 C 257.280 42.381,245.109 50.939,222.795 75.392 C 205.097 94.786,189.046 111.719,188.360 111.719 C 188.045 111.719,186.966 110.225,185.961 108.398 C 161.850 64.568,134.298 45.716,104.497 52.655 C 79.315 58.518,64.037 84.442,68.409 113.888 L 69.631 122.118 95.569 160.493 L 121.506 198.868 112.204 214.473 C 95.773 242.038,82.849 264.905,76.303 277.994 L 69.922 290.754 69.659 303.776 C 69.111 330.932,77.613 344.514,100.155 352.491 C 121.946 360.202,138.539 357.956,155.753 344.965 C 164.107 338.661,164.508 338.070,176.722 314.063 C 182.953 301.816,188.757 290.642,189.620 289.229 L 191.189 286.662 192.627 288.839 C 193.417 290.036,196.439 295.808,199.341 301.664 C 219.351 342.041,241.586 356.738,272.243 349.852 C 293.924 344.983,310.138 322.759,309.165 299.244 C 308.265 277.471,304.930 270.049,279.319 232.813 C 268.236 216.699,258.175 202.068,256.962 200.299 L 254.755 197.082 259.058 190.793 C 267.294 178.754,280.498 163.826,291.926 153.635 C 332.488 117.463,341.109 94.678,325.628 64.566 C 316.184 46.196,295.409 36.378,273.336 39.853 M293.219 53.512 C 311.536 58.283,324.841 82.687,318.760 100.360 C 314.561 112.567,307.531 120.824,274.506 152.344 C 261.668 164.596,244.512 187.139,241.791 195.330 L 240.522 199.151 264.477 234.025 C 292.626 275.005,294.976 279.763,296.542 298.935 C 297.893 315.474,284.485 334.047,268.692 337.513 C 244.720 342.774,228.116 330.658,210.420 294.993 C 202.655 279.343,193.693 268.750,188.217 268.750 C 185.968 268.750,176.495 285.278,161.115 316.034 C 147.574 343.114,126.802 350.856,100.315 338.695 C 86.689 332.439,82.068 323.918,82.043 304.998 L 82.031 295.544 86.400 286.639 C 93.779 271.601,123.250 220.170,132.598 206.019 C 137.444 198.683,138.668 201.204,108.991 157.422 C 85.256 122.406,82.409 117.874,81.509 113.672 C 74.893 82.773,99.791 56.971,128.179 65.309 C 142.582 69.540,160.949 89.714,177.344 119.311 L 180.859 125.658 185.468 126.834 L 190.076 128.009 193.523 125.137 C 197.093 122.163,218.164 99.864,233.518 82.813 C 257.861 55.776,273.134 48.281,293.219 53.512" />
+			</svg>
+			<div class="name-container">
+				<div class="logo-name">CREATIONS</div>
+			</div>
+		</div>
+		<link href="https://cdn.jsdelivr.net/gh/tajo3250/xtaiaoLib/dist/xtaiaoLib/loading/style.css" rel='stylesheet' />
+		<script src="https://cdn.jsdelivr.net/gh/tajo3250/xtaiaoLib/dist/xtaiaoLib/loading/script.js"></script> -->
+
+		<!-- Favicon -->
+		<script src="https://cdn.jsdelivr.net/gh/tajo3250/xtaiaoLib/dist/xtaiaoLib/favicon/script.js"></script>
+
+	<title>Pass Generator</title>
+	<link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+	<link href="styletailwind.css" rel="stylesheet" />
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+</head>
+<body class="min-h-dvh min-w-dvh px-0 py-0 mx-0 my-0 flex flex-col justify-center items-center">
+	<script>0</script>
+
+	<span id="loading" class="loading loading-ring loading-lg"></span>
+
+	<div id="main" class="hidden flex-col justify-center items-center opacity-0">
+        <div>
+            <button class="btn btn-outline btn-info m-4">Overlay Generator</button>
+            <button class="btn btn-outline btn-success m-4">Rewards Generator</button>
+        </div>
+
+        <div id="overlay" class="flex flex-col mb-8 xl:mb-0 xl:flex-row">
+            <div class="flex flex-col justify-center">
+                <div>
+                    <div class="label">
+                        <span class="label-text">Season Name</span>
+                    </div>
+                    <input type="text" id="seasonname" placeholder="Type here" value="TOKYO DRIFT" class="input input-bordered w-full" />
+                </div>
+                <div>
+                    <div class="label">
+                        <span class="label-text">Season Index</span>
+                    </div>
+                    <input type="text" id="seasonindex" placeholder="Type here" value="1" class="input input-bordered w-full" />
+                </div>
+
+                <div>
+                    <div class="label">
+                        <span class="label-text">Upload Background</span>
+                        <span class="label-text-alt">100:15 (e.g 2000x300)</span>
+                    </div>
+                    <input type="file" id="seasonbackground" accept="image/*" class="file-input file-input-primary file-input-bordered w-full" />
+                </div>
+
+                <div>
+                    <div class="label">
+                        <span class="label-text">Background Color</span>
+                    </div>
+                    <input type="text" id="colorpicker" class="p-1.5 rounded-md" value="#0a86d9" data-coloris>
+                </div>
+
+                <div class="flex justify-center items-center">
+                    <button class="btn btn-outline btn-info m-4">Download Result (HIGH-RES)</button>
+                </div>
+            </div>
+            <div class="w-4"></div>
+            <div>
+                <canvas id="canvas" width="1024" height="512" class="rounded-md"></canvas>
+            </div>
+        </div>
+	</div>
+
+	<script src="./script.js"></script>
+</body>
+</html>
