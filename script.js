@@ -40,6 +40,22 @@ load()
 
 
 
+let downloading = false
+
+const overlayelement = document.getElementById("overlay");
+const rewardselement = document.getElementById("rewards");
+
+function overlay() {
+	overlayelement.style.display = 'flex';
+	rewardselement.style.display = 'none';
+    checkUsingExample()
+}
+
+function rewards() {
+	overlayelement.style.display = 'none';
+	rewardselement.style.display = 'flex';
+    checkUsingExample()
+}
 
 
 
@@ -50,85 +66,238 @@ load()
 
 
 
-
-
-
-
-
+const canvasoverlay = document.getElementById('canvasoverlay');
 const seasonname = document.getElementById("seasonname");
 const seasonindex = document.getElementById('seasonindex');
 const imageUpload = document.getElementById('seasonbackground');
 const colorpicker = document.getElementById('colorpicker');
-seasonname.addEventListener("change", render);
-seasonindex.addEventListener("change", render);
-imageUpload.addEventListener("change", render);
-colorpicker.addEventListener("change", render);
+seasonname.addEventListener("change", renderOverlay);
+seasonindex.addEventListener("change", renderOverlay);
+imageUpload.addEventListener("change", renderOverlay);
+colorpicker.addEventListener("change", renderOverlay);
 
-let second = false
-async function render() {
-	const canvas = document.getElementById('canvas');
-	const ctx = canvas.getContext('2d');
+async function renderOverlay() {
+    async function render(ctx, image) {
+        ctx.clearRect(0, 0, canvasoverlay.width, canvasoverlay.height);
+        const width = canvasoverlay.width * (1796 / 2048);
+        const height = canvasoverlay.height * (267 / 1024);
 
-	console.log(`Render | Name: '${seasonname.value}' Index: '${seasonindex.value}' Image: '${imageUpload.files[0] ? imageUpload.files[0].name : 'default'}' Color: '${colorpicker.value}'`);
+        ctx.fillStyle = colorpicker.value;
+        ctx.fillRect((canvasoverlay.width - width) / 2, canvasoverlay.height - height, width, height);
+        ctx.fillStyle = "#000000";
 
-	let image = new Image();
-	if (imageUpload.files && imageUpload.files[0]) {
-		const reader = new FileReader();
-		reader.onload = function (e) {
-			image.onload = function () {
-				render2(ctx, image);
-			};
-			image.src = e.target.result;
-		};
-		reader.readAsDataURL(imageUpload.files[0]);
-	} else {
-		image.onload = function () {
-			render2(ctx, image);
-		};
-		image.src = "./examplebackground.png"
-	}
+        ctx.globalAlpha = 0.7;
+        ctx.drawImage(image, (canvasoverlay.width - width) / 2, canvasoverlay.height - height, width, height);
+        ctx.globalAlpha = 1.0;
 
-	if (second === false) {
-		second = true
-		await sleep(1200)
-		render()
-	}
+        let fontsize = canvasoverlay.width * 0.06;
+        const seasonNameX = canvasoverlay.width / 3.4 / 3.4;
+        const seasonNameY = canvasoverlay.height - canvasoverlay.height / 8.2;
+
+        ctx.font = `800 ${fontsize}px "Rubik"`;
+        ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+        ctx.fillStyle = "#FFFFFF";
+        ctx.lineWidth = fontsize / 6;
+        ctx.shadowOffsetY = fontsize / 20;
+        ctx.textAlign = 'left';
+
+        ctx.strokeText(`${seasonname.value.toUpperCase()}`, seasonNameX, seasonNameY);
+        ctx.fillText(`${seasonname.value.toUpperCase()}`, seasonNameX, seasonNameY);
+
+        const seasonNameWidth = ctx.measureText(seasonname.value.toUpperCase()).width;
+        const seasonNameHeight = ctx.measureText(seasonname.value.toUpperCase()).emHeightAscent;
+
+        fontsize /= 2.2;
+
+        ctx.font = `800 ${fontsize}px "Rubik"`;
+        ctx.lineWidth = fontsize / 6;
+        ctx.shadowOffsetY = fontsize / 20;
+
+        const seasonIndexX = seasonNameX + seasonNameWidth + 20;
+
+        ctx.strokeText(`SEASON ${seasonindex.value}`, seasonIndexX, seasonNameY - seasonNameHeight / 5);
+        ctx.fillText(`SEASON ${seasonindex.value}`, seasonIndexX, seasonNameY - seasonNameHeight / 5);
+
+        ctx.shadowColor = 'rgba(0, 0, 0, 0)';
+        ctx.strokeStyle = '#000000';
+        ctx.fillStyle = "#000000";
+        ctx.lineWidth = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.textAlign = "start";
+    }
+
+    const ctx = canvasoverlay.getContext('2d');
+
+    console.log(`Render | Name: '${seasonname.value}' Index: '${seasonindex.value}' Image: '${imageUpload.files[0] ? imageUpload.files[0].name : 'default'}' Color: '${colorpicker.value}'`);
+
+    let image = new Image();
+
+    const loadImage = () => {
+        return new Promise((resolve, reject) => {
+            image.onload = () => resolve(image);
+            image.onerror = reject;
+
+            checkUsingExample();
+            if (imageUpload.files && imageUpload.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    image.src = e.target.result;
+                };
+                reader.readAsDataURL(imageUpload.files[0]);
+            } else {
+                image.src = "./examplebackground.png";
+            }
+        });
+    };
+
+	const loadedImage = await loadImage();
+	await render(ctx, loadedImage);
 }
 
-function render2(ctx, image) {
-	const canvas = ctx.canvas;
+const canvasrewards = document.getElementById('canvasrewards');
+const rewardindex = document.getElementById("rewardindex");
+const rewarddisplay = document.getElementById('rewarddisplay');
+const rewardicon = document.getElementById('rewardicon');
+rewardindex.addEventListener("change", renderRewards);
+rewarddisplay.addEventListener("change", renderRewards);
+rewardicon.addEventListener("change", renderRewards);
 
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	const width = canvas.width*(1796/2048)
-	const height = canvas.height*(267/1024)
+// todo
+async function renderRewards() {
+    async function render(ctx, image) {
+        ctx.clearRect(0, 0, canvasrewards.width, canvasrewards.height);
 
-	ctx.fillStyle = colorpicker.value;
-	ctx.fillRect((canvas.width-width)/2, canvas.height-height, width, height);
-	ctx.fillStyle = "#000000"
+        const imageScale = 0.625
+        ctx.drawImage(image, canvasrewards.width*((1-imageScale)/2), canvasrewards.height*((1-imageScale)/2)-canvasrewards.height*0.025, canvasrewards.width*imageScale, canvasrewards.height*imageScale);
 
-	ctx.globalAlpha = 0.7;
-	ctx.drawImage(image, (canvas.width-width)/2, canvas.height-height, width, height);
-	ctx.globalAlpha = 1.0;
+        ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
+        ctx.fillStyle = "#FFFFFF";
+        ctx.textAlign = 'center';
 
-	let fontsize = 62;
+        let fontsize = canvasrewards.width * 0.15;
+        do {
+            ctx.font = `800 ${fontsize}px "Rubik"`;
+            ctx.lineWidth = fontsize / 6;
+            ctx.shadowOffsetY = fontsize / 20;
+            textWidth = ctx.measureText(`${rewarddisplay.value}`).width;
+            
+            fontsize--;
+            
+        } while (textWidth > canvasrewards.width && fontsize > 0);
 
-	ctx.font = `800 ${fontsize}px "Rubik"`;
-	ctx.shadowColor = 'rgba(0, 0, 0, 1)';
-	ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
-	ctx.fillStyle = "#FFFFFF"
-	ctx.lineWidth = fontsize/6;
-	ctx.shadowOffsetY = fontsize/20;
-	ctx.textAlign = 'left';
-	
-	ctx.strokeText(`${seasonname.value.toUpperCase()}`, canvas.width / 3.4 / 3.4, canvas.height - canvas.height / 8.2);
-	ctx.fillText(`${seasonname.value.toUpperCase()}`, canvas.width / 3.4 / 3.4, canvas.height - canvas.height / 8.2);
+        ctx.font = `800 ${fontsize}px "Rubik"`;
+        ctx.lineWidth = fontsize / 6;
+        ctx.shadowOffsetY = fontsize / 20;
+        ctx.strokeText(`${rewarddisplay.value}`, canvasrewards.width/2, canvasrewards.height*0.85);
+        ctx.fillText(`${rewarddisplay.value}`, canvasrewards.width/2, canvasrewards.height*0.85);
 
-	ctx.shadowColor = 'rgba(0, 0, 0, 0)';
-	ctx.strokeStyle = '#000000';
-	ctx.fillStyle = "#000000";
-	ctx.lineWidth = 0;
-	ctx.shadowOffsetY = 0;
-	ctx.textAlign = "start";
+        ctx.shadowColor = 'rgba(0, 0, 0, 0)';
+        ctx.strokeStyle = '#000000';
+        ctx.fillStyle = "#000000";
+        ctx.lineWidth = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.textAlign = "start";
+    }
+
+    const ctx = canvasrewards.getContext('2d');
+
+    console.log(`Render | Index: '${rewardindex.value}' Display: '${rewarddisplay.value}' Image: '${rewardicon.files[0] ? rewardicon.files[0].name : 'default'}'`);
+
+    let image = new Image();
+
+    const loadImage = () => {
+        return new Promise((resolve, reject) => {
+            image.onload = () => resolve(image);
+            image.onerror = reject;
+
+            checkUsingExample();
+            if (rewardicon.files && rewardicon.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    image.src = e.target.result;
+                };
+                reader.readAsDataURL(rewardicon.files[0]);
+            } else {
+                image.src = "./exampleicon.png";
+            }
+        });
+    };
+
+	const loadedImage = await loadImage();
+	await render(ctx, loadedImage);
 }
 
-render()
+async function downloadOverlay() {
+	if (downloading) { return }
+	downloading = true
+
+	document.getElementById('loading').style.display = 'flex';
+	document.getElementById('main').style.display = 'none';
+
+	canvasoverlay.width = 2048
+	canvasoverlay.height = 1024
+	await renderOverlay()
+
+	const link = document.createElement('a');
+	link.href = canvasoverlay.toDataURL('image/png');
+	link.download = `bgoverlay.png`;
+	link.click();
+
+	canvasoverlay.width = 1024
+	canvasoverlay.height = 512
+	renderOverlay()
+
+	document.getElementById('loading').style.display = 'none';
+	document.getElementById('main').style.display = 'flex';
+
+	downloading = false
+}
+
+async function downloadRewards() {
+	if (downloading) { return }
+	downloading = true
+
+	document.getElementById('loading').style.display = 'flex';
+	document.getElementById('main').style.display = 'none';
+
+	canvasrewards.width = 1024
+	canvasrewards.height = 1024
+	await renderRewards()
+
+	const link = document.createElement('a');
+	link.href = canvasrewards.toDataURL('image/png');
+	link.download = `reward${rewardindex.value}display.png`;
+	link.click();
+
+	canvasrewards.width = 512
+	canvasrewards.height = 512
+	renderRewards()
+
+	document.getElementById('loading').style.display = 'none';
+	document.getElementById('main').style.display = 'flex';
+
+	downloading = false
+}
+
+function checkUsingExample() {
+    if (overlayelement.style.display != "none") {
+        if (imageUpload.files && imageUpload.files[0]) {
+            document.getElementById('canvasexampleenabled').style.display = 'none';
+        } else {
+            document.getElementById('canvasexampleenabled').style.display = 'block';
+        }
+    } else if (rewardselement.style.display != "none") {
+        if (rewardicon.files && rewardicon.files[0]) {
+            document.getElementById('canvasexampleenabled').style.display = 'none';
+        } else {
+            document.getElementById('canvasexampleenabled').style.display = 'block';
+        }
+    }
+}
+
+document.fonts.load(`800 16px "Rubik"`).then(() => {
+    renderOverlay();
+    renderRewards();
+});

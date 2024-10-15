@@ -41,8 +41,8 @@
 
 	<div id="main" class="hidden flex-col justify-center items-center opacity-0">
         <div>
-            <button class="btn btn-outline btn-info m-4">Overlay Generator</button>
-            <button class="btn btn-outline btn-success m-4">Rewards Generator</button>
+            <button class="btn btn-outline btn-info m-4" onclick="overlay()">Overlay Generator</button>
+            <button class="btn btn-outline btn-success m-4" onclick="rewards()">Rewards Generator</button>
         </div>
 
         <div id="overlay" class="flex flex-col mb-8 xl:mb-0 xl:flex-row">
@@ -57,7 +57,7 @@
                     <div class="label">
                         <span class="label-text">Season Index</span>
                     </div>
-                    <input type="text" id="seasonindex" placeholder="Type here" value="1" class="input input-bordered w-full" />
+                    <input type="number" id="seasonindex" placeholder="Type here" value="1" class="input input-bordered w-full" />
                 </div>
 
                 <div>
@@ -65,7 +65,7 @@
                         <span class="label-text">Upload Background</span>
                         <span class="label-text-alt">100:15 (e.g 2000x300)</span>
                     </div>
-                    <input type="file" id="seasonbackground" accept="image/*" class="file-input file-input-primary file-input-bordered w-full" />
+                    <input type="file" id="seasonbackground" accept="image/*" class="file-input file-input-info file-input-bordered w-full" />
                 </div>
 
                 <div>
@@ -76,14 +76,49 @@
                 </div>
 
                 <div class="flex justify-center items-center">
-                    <button class="btn btn-outline btn-info m-4">Download Result (HIGH-RES)</button>
+                    <button class="btn btn-outline btn-info m-4" onclick="downloadOverlay()">Download Result (HIGH-RES)</button>
                 </div>
             </div>
             <div class="w-4"></div>
-            <div>
-                <canvas id="canvas" width="1024" height="512" class="rounded-md"></canvas>
+            <div class="flex bg-slate-800 rounded-md">
+                <canvas id="canvasoverlay" width="1024" height="512"></canvas>
             </div>
         </div>
+
+        <div id="rewards" class="hidden flex-col mb-8 xl:mb-0 xl:flex-row">
+            <div class="flex flex-col justify-center">
+                <div>
+                    <div class="label">
+                        <span class="label-text">Reward Index</span>
+                    </div>
+                    <input type="number" id="rewardindex" placeholder="Type here" value="1" class="input input-bordered w-full" />
+                </div>
+                <div>
+                    <div class="label">
+                        <span class="label-text">Reward Display</span>
+                    </div>
+                    <input type="text" id="rewarddisplay" placeholder="Type here" value="10 Coins" class="input input-bordered w-full" />
+                </div>
+
+                <div>
+                    <div class="label">
+                        <span class="label-text">Upload Icon</span>
+                        <span class="label-text-alt">1:1 (e.g 512x512)</span>
+                    </div>
+                    <input type="file" id="rewardicon" accept="image/*" class="file-input file-input-success file-input-bordered w-full" />
+                </div>
+
+                <div class="flex justify-center items-center">
+                    <button class="btn btn-outline btn-success m-4" onclick="downloadRewards()">Download Result (HIGH-RES)</button>
+                </div>
+            </div>
+            <div class="w-4"></div>
+            <div class="flex bg-slate-800 rounded-md">
+                <canvas id="canvasrewards" width="512" height="512"></canvas>
+            </div>
+        </div>
+
+        <span id="canvasexampleenabled">Currently using an example decal</span>
 	</div>
 
 	<script src="./script.js"></script>
