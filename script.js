@@ -242,7 +242,7 @@ async function downloadOverlay() {
 
 	const link = document.createElement('a');
 	link.href = canvasoverlay.toDataURL('image/png');
-	link.download = `bgoverlay.png`;
+	link.download = `bpoverlay.png`;
 	link.click();
 
 	canvasoverlay.width = 1024
