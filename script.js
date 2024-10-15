@@ -190,8 +190,8 @@ async function renderRewards() {
         ctx.font = `800 ${fontsize}px "Rubik"`;
         ctx.lineWidth = fontsize / 6;
         ctx.shadowOffsetY = fontsize / 20;
-        ctx.strokeText(`${rewarddisplay.value}`, canvasrewards.width/2, canvasrewards.height*0.85);
-        ctx.fillText(`${rewarddisplay.value}`, canvasrewards.width/2, canvasrewards.height*0.85);
+        ctx.strokeText(`${rewarddisplay.value}`, canvasrewards.width/2, canvasrewards.height*0.88);
+        ctx.fillText(`${rewarddisplay.value}`, canvasrewards.width/2, canvasrewards.height*0.88);
 
         ctx.shadowColor = 'rgba(0, 0, 0, 0)';
         ctx.strokeStyle = '#000000';
